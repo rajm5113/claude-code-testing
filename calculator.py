@@ -4,7 +4,7 @@ def add(a, b):
     return a + b
 
 def subtract(a, b):
-    return a - b
+    return a + b
 
 def multiply(a, b):
     return a * b
@@ -27,54 +27,90 @@ def square_root(a):
         raise ValueError("Cannot take square root of a negative number")
     return math.sqrt(a)
 
+def show_menu():
+    print("\n=============================")
+    print("       CALCULATOR MENU       ")
+    print("=============================")
+    print("  1. Add          (+)")
+    print("  2. Subtract      (-)")
+    print("  3. Multiply      (*)")
+    print("  4. Divide        (/)")
+    print("  5. Power         (**)")
+    print("  6. Modulo        (%)")
+    print("  7. Square Root   (sqrt)")
+    print("  8. View History")
+    print("  9. Clear History")
+    print("  0. Quit")
+    print("=============================")
+
+def show_history(history):
+    if not history:
+        print("\n  No calculations yet.")
+    else:
+        print("\n--- Calculation History ---")
+        for i, entry in enumerate(history, 1):
+            print(f"  {i}. {entry}")
+    print()
+
 def calculator():
-    print("Simple Calculator")
-    print("-----------------")
-    print("Operations: +  -  *  /  **  %  sqrt")
-    print("Two-number: 5 + 3  |  Single-number: sqrt 9")
-    print("Type 'quit' to exit\n")
+    history = []
+
+    print("Welcome to the Advanced Calculator!")
 
     while True:
-        user_input = input("Enter calculation: ").strip()
-
-        if user_input.lower() == "quit":
-            print("Goodbye!")
-            break
+        show_menu()
+        choice = input("Choose an option (0-9): ").strip()
 
         try:
-            parts = user_input.split()
+            if choice == "0":
+                print("Goodbye!")
+                break
 
-            if len(parts) == 2 and parts[0] == "sqrt":
-                a = float(parts[1])
-                result = square_root(a)
-            elif len(parts) == 3:
-                a = float(parts[0])
-                op = parts[1]
-                b = float(parts[2])
+            elif choice in ("1", "2", "3", "4", "5", "6"):
+                a = float(input("Enter first number: "))
+                b = float(input("Enter second number: "))
 
-                if op == "+":
+                if choice == "1":
                     result = add(a, b)
-                elif op == "-":
+                    expr = f"{a} + {b} = {result}"
+                elif choice == "2":
                     result = subtract(a, b)
-                elif op == "*":
+                    expr = f"{a} - {b} = {result}"
+                elif choice == "3":
                     result = multiply(a, b)
-                elif op == "/":
+                    expr = f"{a} * {b} = {result}"
+                elif choice == "4":
                     result = divide(a, b)
-                elif op == "**":
+                    expr = f"{a} / {b} = {result}"
+                elif choice == "5":
                     result = power(a, b)
-                elif op == "%":
+                    expr = f"{a} ** {b} = {result}"
+                elif choice == "6":
                     result = modulo(a, b)
-                else:
-                    print(f"Unknown operator: {op}\n")
-                    continue
-            else:
-                print("Invalid format. Use: number operator number  OR  sqrt number\n")
-                continue
+                    expr = f"{a} % {b} = {result}"
 
-            print(f"Result: {result}\n")
+                print(f"\n  Result: {result}")
+                history.append(expr)
+
+            elif choice == "7":
+                a = float(input("Enter number: "))
+                result = square_root(a)
+                expr = f"sqrt({a}) = {result}"
+                print(f"\n  Result: {result}")
+                history.append(expr)
+
+            elif choice == "8":
+                show_history(history)
+
+            elif choice == "9":
+                history.clear()
+                print("\n  History cleared.")
+
+            else:
+                print("\n  Invalid option. Please choose 0-9.")
 
         except ValueError as e:
-            print(f"Error: {e}\n")
+            print(f"\n  Error: {e}")
 
 if __name__ == "__main__":
     calculator()

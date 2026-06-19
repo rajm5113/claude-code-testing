@@ -61,5 +61,9 @@ class TestCalculator(unittest.TestCase):
         with self.assertRaises(ValueError):
             square_root(-1)
 
+    # --- bug test: subtract is broken ---
+    def test_subtract_large_numbers(self):
+        self.assertEqual(subtract(1000, 999), 1)
+
 if __name__ == "__main__":
     unittest.main()
